@@ -872,6 +872,13 @@ const toggleBackground = () => {
     right: 40%;
     transform: translate(-40%, -40%);
   }
+
+  .about__description{
+    padding-bottom: 2rem;
+  }
+  .about__stack{
+    padding-bottom: 2.5rem;
+  }
 }
 
 
