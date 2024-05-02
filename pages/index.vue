@@ -17,7 +17,7 @@
               </li>
               <li class="nav__item nav__btn">
                 <div v-for="(item, index) in navItems" :key="index" class="item__link item__btn">
-                  <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" />
+                  <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" :index="index" @buttonClick="handleButtonClick" />
                 </div>
               </li>
               <li class="nav__item">
@@ -30,7 +30,6 @@
   <header class="header mobile" :class="{ 'menu-open': isMenuOpen }">
     <div class="container">
       <nav class="nav">
-        <!-- Логотип -->
         <div class="logo-container">
           <logo class="logo header__logo" @click.stop="showModal = true"/>
           <transition name="fade">
@@ -52,8 +51,8 @@
 
         <ul class="nav__list">
           <li class="nav__item">
-            <div v-for="(item, index) in navItems" :key="index" class="item__link">
-              <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" />
+            <div v-for="(item, index) in navItems" :key="index" class="item__link item__btn">
+              <Btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :index="index" @buttonClick="handleButtonClick" />
             </div>
           </li>
           <li class="nav__item">
@@ -80,7 +79,7 @@
         @swiper="onSwiper"
     >
       <SwiperSlide class="swiper_slide">
-        <section class="biography">
+        <section class="biography" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
           <div class="container">
             <div class="biography__wrapper">
               <div class="biography__content">
@@ -108,7 +107,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="about">
+        <section class="about" id="about" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
           <div class="container">
             <div class="about__wrapper">
               <div class="about__image">
@@ -138,7 +137,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="project">
+        <section class="project" id="projects" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
           <div class="last-container">
             <div class="project__wrapper">
               <div class="project__head">
@@ -150,6 +149,7 @@
               </div>
             </div>
           </div>
+<!--          <button class="secret__btn" @click="toggleBackground"></button>-->
         </section>
       </SwiperSlide>
     </Swiper>
@@ -173,7 +173,6 @@ const colorMode = useColorMode()
 
 console.log(colorMode.preference)
 
-
 const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
@@ -186,11 +185,42 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 
 let realIndex = ref(0);
 
+let swiperInstance = 0;
+
 const onSwiper = (swiper) => {
+  swiperInstance = swiper;
   swiper.on('slideChange', () => {
     realIndex.value = swiper.realIndex;
-    console.log('Current realIndex:', realIndex);
   });
+};
+
+const project = () => {
+  swiperInstance.slideTo(2);
+}
+const about = () => {
+  swiperInstance.slideTo(1);
+}
+
+const handleButtonClick = (index: number) => {
+  if (index === 0) {
+    about();
+  } else if (index === 1) {
+    project();
+  }
+};
+
+
+
+
+
+const shouldChangeBackground = ref(false);
+
+// Ссылка на изображение фона
+const backgroundImage = ref('url("/a1.jpeg")');
+
+// Функция для изменения состояния переменной shouldChangeBackground
+const toggleBackground = () => {
+  shouldChangeBackground.value = true;
 };
 
 </script>
@@ -218,6 +248,11 @@ const onSwiper = (swiper) => {
   top: 15%;
 }
 
+
+.biography, .about, .project{
+  background-position: center;
+  background-size: cover;
+}
 
 // На вопрос тех почему я указал по одному тегу, а не через запятую все сразу. Переключатель цвета так не работал.
 .dark-mode .biography {
@@ -255,13 +290,13 @@ const onSwiper = (swiper) => {
 
 
 .biography{
-  height: 100vh;
+  height: 100lvh;
 }
 .about{
-  height: 100vh;
+  height: 100lvh;
 }
 .project{
-  height: 100vh;
+  height: 100lvh;
 }
 .swiper, .swiper_slide{
   height: 100%;
@@ -293,9 +328,7 @@ const onSwiper = (swiper) => {
   align-items: center;
   display: flex;
 }
-.item__btn:not(:last-child){
-  padding-right: 4.5rem;
-}
+
 .item__logo{
   cursor: pointer;
   height: 6rem;
@@ -421,7 +454,7 @@ const onSwiper = (swiper) => {
 }
 
 .circle {
-  width: 1.5rem;
+  width: 2rem;
   height: 1.5rem;
   border-radius: 50%;
   position: relative;
@@ -750,7 +783,7 @@ const onSwiper = (swiper) => {
     grid-template-columns: repeat(4, 1fr);
   }
   .about__image{
-    width: 25%;
+    width: 33%;
     margin-bottom: 4rem;
   }
   .about__info{
@@ -763,6 +796,7 @@ const onSwiper = (swiper) => {
   .about__who::before{
     top: 30%;
   }
+
 }
 
 .dark-mode .item__switch{
@@ -801,11 +835,31 @@ const onSwiper = (swiper) => {
     font-size: 1.6rem;
   }
   .biography__animate{
-    padding-left: 2rem;
+    margin-top: 2rem;
+    padding-left: 0;
+    justify-content: center;
   }
   .about__image::before, .about__image::after {
     width: 6rem;
     height: 6rem;
+  }
+  .about__image{
+    width: 40%;
+  }
+  .biography__contact{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .circle{
+    width: 1.5rem;
+  }
+  .biography__collab{
+    font-size: 1.3rem;
+  }
+  .arrow-4 {
+    left: 40%;
+    right: 40%;
+    transform: translate(-40%, -40%);
   }
 }
 
@@ -827,8 +881,9 @@ const onSwiper = (swiper) => {
   position: absolute;
   z-index: 2;
   bottom: 45px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 40%;
+  right: 40%;
+  transform: translate(-45%, -45%);
   width: 66px;
   height: 30px;
 }
@@ -895,4 +950,13 @@ const onSwiper = (swiper) => {
   background-color: black;
 }
 
+
+.secret__btn{
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  bottom: 20%;
+  width: 2rem;
+  padding: 10rem 4rem 10rem 5rem;
+}
 </style>
