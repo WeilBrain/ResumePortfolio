@@ -945,7 +945,19 @@ const toggleBackground = () => {
   transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
   z-index: -1;
 }
-
+@media (max-width: 379px){
+  .biography__image{
+    margin-bottom: 1rem;
+    max-width: 20rem;
+    max-height: 20rem;
+  }
+  .arrow-4{
+    bottom: 15px
+  }
+  .about__description{
+    font-size: 1.4rem;
+  }
+}
 
 .dark-mode .arrow-4-right:after{
   background-color: $greenMain;
