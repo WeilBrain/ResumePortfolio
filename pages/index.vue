@@ -945,7 +945,7 @@ const toggleBackground = () => {
   transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
   z-index: -1;
 }
-@media (max-width: 379px){
+@media (max-width: 420px){
   .biography__image{
     margin-bottom: 1rem;
     max-width: 20rem;
