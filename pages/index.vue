@@ -17,7 +17,7 @@
               </li>
               <li class="nav__item nav__btn">
                 <div v-for="(item, index) in navItems" :key="index" class="item__link item__btn">
-                  <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" :index="index" @buttonClick="handleButtonClick" />
+                  <btn class="nav__item-btn"  :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" :index="index" @buttonClick="handleButtonClick" />
                 </div>
               </li>
               <li class="nav__item">
@@ -376,7 +376,11 @@ const toggleBackground = () => {
   right: 10px;
   cursor: pointer;
 }
-
+.arrow-4 {
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .biography {
   display: flex;
@@ -425,6 +429,10 @@ const toggleBackground = () => {
     color: #888;
   }
 }
+.item__btn:not(:last-child){
+  margin-right: 3.6rem;
+}
+
 
 .biography {
   &__image {
@@ -454,7 +462,7 @@ const toggleBackground = () => {
 }
 
 .circle {
-  width: 2rem;
+  width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
   position: relative;
@@ -702,7 +710,10 @@ const toggleBackground = () => {
     cursor: pointer;
     z-index: 999; /* Поместить поверх содержимого */
   }
-
+  .circle{
+    width: 2rem;
+    height: 1.5rem;
+  }
   .burger-line {
     width: 30px;
     height: 3px;
