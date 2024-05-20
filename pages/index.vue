@@ -79,7 +79,7 @@
         @swiper="onSwiper"
     >
       <SwiperSlide class="swiper_slide">
-        <section class="biography" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
+        <section class="biography">
           <div class="container">
             <div class="biography__wrapper">
               <div class="biography__content">
@@ -107,7 +107,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="about" id="about" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
+        <section class="about" id="about">
           <div class="container">
             <div class="about__wrapper">
               <div class="about__image">
@@ -137,7 +137,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="project" id="projects" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
+        <section class="project" id="projects">
           <div class="last-container">
             <div class="project__wrapper">
               <div class="project__head">
@@ -149,7 +149,6 @@
               </div>
             </div>
           </div>
-<!--          <button class="secret__btn" @click="toggleBackground"></button>-->
         </section>
       </SwiperSlide>
     </Swiper>
@@ -207,20 +206,6 @@ const handleButtonClick = (index: number) => {
   } else if (index === 1) {
     project();
   }
-};
-
-
-
-
-
-const shouldChangeBackground = ref(false);
-
-// Ссылка на изображение фона
-const backgroundImage = ref('url("/a1.jpeg")');
-
-// Функция для изменения состояния переменной shouldChangeBackground
-const toggleBackground = () => {
-  shouldChangeBackground.value = true;
 };
 
 </script>
@@ -375,11 +360,6 @@ const toggleBackground = () => {
   top: 10px;
   right: 10px;
   cursor: pointer;
-}
-.arrow-4 {
-  left: 50%;
-  right: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .biography {
@@ -661,7 +641,76 @@ const toggleBackground = () => {
   width: 100%;
 }
 
+@keyframes arrowAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 50%;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.arrow-4 {
+  animation: arrowAnimation 2s infinite;
+  position: absolute;
+  z-index: 2;
+  bottom: 45px;
+  left: 45%;
+  right: 45%;
+  transform: translate(-50%, -45%);
+  width: 66px;
+  height: 30px;
+}
+.arrow-4-left {
+  position: absolute;
+  background-color: transparent;
+  top: 10px;
+  left: 0;
+  width: 40px;
+  height: 10px;
+  display: block;
+  transform: rotate(35deg);
+  float: right;
+  border-radius: 2px;
+}
+.arrow-4-left:after {
+  content: "";
+  background-color: #337AB7;
+  width: 40px;
+  height: 10px;
+  display: block;
+  float: right;
+  border-radius: 6px 10px 10px 6px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+}
 
+.arrow-4-right {
+  position: absolute;
+  background-color: transparent;
+  top: 10px;
+  left: 26px;
+  width: 40px;
+  height: 10px;
+  display: block;
+  transform: rotate(-35deg);
+  float: right;
+  border-radius: 2px;
+}
+.arrow-4-right:after {
+  content: "";
+  background-color: #337AB7;
+  width: 40px;
+  height: 10px;
+  display: block;
+  float: right;
+  border-radius: 10px 6px 6px 10px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+}
 
 @media (max-width: 1140px){
   .biography__wrapper{
@@ -868,9 +917,9 @@ const toggleBackground = () => {
     font-size: 1.3rem;
   }
   .arrow-4 {
-    left: 40%;
     right: 40%;
-    transform: translate(-40%, -40%);
+    left: 40%;
+    transform: translate(40%, 40%);
   }
 
   .about__description{
@@ -881,77 +930,6 @@ const toggleBackground = () => {
   }
 }
 
-
-
-@keyframes arrowAnimation {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px); /* Движение вверх */
-  }
-  100% {
-    transform: translateY(0); /* Возвращение вниз */
-  }
-}
-.arrow-4 {
-  animation: arrowAnimation 2s infinite;
-  position: absolute;
-  z-index: 2;
-  bottom: 45px;
-  left: 40%;
-  right: 40%;
-  transform: translate(-45%, -45%);
-  width: 66px;
-  height: 30px;
-}
-.arrow-4-left {
-  position: absolute;
-  background-color: transparent;
-  top: 10px;
-  left: 0;
-  width: 40px;
-  height: 10px;
-  display: block;
-  transform: rotate(35deg);
-  float: right;
-  border-radius: 2px;
-}
-.arrow-4-left:after {
-  content: "";
-  background-color: #337AB7;
-  width: 40px;
-  height: 10px;
-  display: block;
-  float: right;
-  border-radius: 6px 10px 10px 6px;
-  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
-  z-index: -1;
-}
-
-.arrow-4-right {
-  position: absolute;
-  background-color: transparent;
-  top: 10px;
-  left: 26px;
-  width: 40px;
-  height: 10px;
-  display: block;
-  transform: rotate(-35deg);
-  float: right;
-  border-radius: 2px;
-}
-.arrow-4-right:after {
-  content: "";
-  background-color: #337AB7;
-  width: 40px;
-  height: 10px;
-  display: block;
-  float: right;
-  border-radius: 10px 6px 6px 10px;
-  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
-  z-index: -1;
-}
 @media (max-width: 420px){
   .biography__image{
     margin-bottom: 1rem;
